@@ -1,0 +1,16 @@
+PODS:
+  - SACodedTextField (1.0)
+
+DEPENDENCIES:
+  - SACodedTextField
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - SACodedTextField
+
+SPEC CHECKSUMS:
+  SACodedTextField: dc04d2b84ed0a141261c1080570e8df88816b289
+
+PODFILE CHECKSUM: e9c1a8fb0f1e7f0af17fe84455e5311a037f0ae5
+
+COCOAPODS: 1.5.3
