@@ -59,7 +59,7 @@ class LoginViewController: UIViewController {
     var blue1 = UIColor(hexString: "3f96ce")
     var blue2 = UIColor(hexString: "346aa0")
     var phoneNumber = ""
-    var toScreen = ""
+    var currentScreen = "LOGIN"
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -337,7 +337,7 @@ class LoginViewController: UIViewController {
         
         setOtpView(alpha: 0.0)
         setOtpObjects(alpha: 0.0)
-        setOtpText(alpha: 0.0)
+       // setOtpText(alpha: 0.0)
     }
     
     func initForgotPasswordView() {
@@ -457,17 +457,14 @@ class LoginViewController: UIViewController {
         forgotView.alpha = alpha
     }
     
-    func setLoginText(alpha: CGFloat) {
+    func setLoginObjects(alpha: CGFloat) {
         loginTextField.alpha = alpha
         titleLabel.alpha = alpha
-    }
-    
-    func setLoginObjects(alpha: CGFloat) {
         lineView.alpha = alpha
         nextButton.alpha = alpha
     }
 
-    func setOtpText(alpha: CGFloat) {
+    func setOtpObjects(alpha: CGFloat) {
         otpTopLabel.alpha = alpha
         verificationLabel.alpha = alpha
         otpTextField.alpha = alpha
@@ -475,10 +472,6 @@ class LoginViewController: UIViewController {
         tncLabel.alpha = alpha
         tncButton.alpha = alpha
         verificationLabel.text = "Please type the Verification Code sent to \(phoneNumber) via SMS"
-    }
-    
-    func setOtpObjects(alpha: CGFloat) {
-        backButton.alpha = alpha
         otpImage.alpha = alpha
         otpLineView.alpha = alpha
         clockImage.alpha = alpha
@@ -511,21 +504,11 @@ class LoginViewController: UIViewController {
     }
     
     func setForgotObjects(alpha: CGFloat) {
-        backButton.alpha = alpha
         forgotTitleLabel.alpha = alpha
         forgotDescLabel.alpha = alpha
         forgotTextField.alpha = alpha
         forgotLineView.alpha = alpha
         resetButton.alpha = alpha
-    }
-
-    
-    @objc func onPressNext(sender: UIButton!) {
-        //if password
-        if loginTextField.text?.isEmpty == false {
-            animateLoginPassword()
-        }
-        //else
     }
     
     func animateLoginPassword() {
@@ -549,87 +532,62 @@ class LoginViewController: UIViewController {
             self.setBottomObjects(alpha: 0)
         }, completion: { (Void) in
             UIView.animate(withDuration: 0.3, animations: {
-                self.backButton.alpha = 1.0
-                self.setPasswordComponents(alpha: 1.0)
+                self.backButton.alpha = 1
+                self.setPasswordComponents(alpha: 1)
             })
         })
     }
     
-    
-    //1
-    func animateLoginText(alpha: CGFloat) {
-        UIView.animate(withDuration: 0.3, animations: {
-            self.setLoginText(alpha: alpha)
-            if self.toScreen == "OTP" || (self.toScreen == "FORGOT" && alpha == 0) {
-                self.setSocialObjects(alpha: alpha)
-                self.setBottomObjects(alpha: alpha)
-                self.setPasswordComponents(alpha: 0)
-            }
-        }) { (Void) in
-            if alpha == 0 {
-                self.animateLoginObjects(alpha: alpha)
-            }
-        }
-    }
     //2
-    func animateLoginObjects(alpha: CGFloat) {
+    func fadeLoginPasswordObjects(alpha: CGFloat) {
         UIView.animate(withDuration: 0.3, animations: {
             self.setLoginObjects(alpha: alpha)
+            self.setPasswordComponents(alpha: alpha)
         }) { (Void) in
             if alpha == 0 {
-                self.animateLoginView(alpha: alpha)
-            } else {
-                self.animateLoginText(alpha: alpha)
+                self.animateLoginPasswordView(alpha: 0)
             }
         }
     }
     //3
-    func animateLoginView(alpha: CGFloat) {
+    func animateLoginPasswordView(alpha: CGFloat) {
         UIView.animate(withDuration: 0.3, animations: {
             if alpha == 0 {
-                if self.toScreen == "OTP" {
+                if self.currentScreen == "OTP" {
                     self.loginView.frame = self.otpFrame
-                } else if self.toScreen == "FORGOT" {
+                } else if self.currentScreen == "FORGOT" {
                     self.loginView.frame = self.forgotPasswordFrame
+                }
+            } else {
+                if self.currentScreen == "LOGINPASSWORD" {
+                    self.loginView.frame = self.loginFrame
+                    self.resetLoginPositions()
                 }
             }
         }, completion: { (Void) in
             if alpha == 0 {
-                self.setLoginView(alpha: alpha)
-                if self.toScreen == "OTP" {
+                self.setLoginView(alpha: 0)
+                if self.currentScreen == "OTP" {
                     self.setOtpView(alpha: 1)
-                    self.animateOtpView(alpha: 1)
-                    self.loginView.frame = self.loginFrame
-                } else if self.toScreen == "FORGOT" {
+                    self.fadeOtpObjects(alpha: 1)
                     self.loginView.frame = self.loginPasswordFrame
+                } else if self.currentScreen == "FORGOT" {
+                    self.loginView.frame = self.loginPasswordFrame
+                    self.forgotView.frame = self.forgotPasswordFrame
                     self.setForgotView(alpha: 1)
-                    self.animateForgotView(alpha: 1)
+                    self.fadeForgotObjects(alpha: 1)
                 }
-          } else {
-                self.animateLoginObjects(alpha: alpha)
             }
         })
     }
     
-    func animateOtpText(alpha: CGFloat) {
-        UIView.animate(withDuration: 0.3, animations: {
-            self.setOtpText(alpha: alpha)
-        }) { (Void) in
-            if alpha == 0 {
-                self.animateOtpObjects(alpha: alpha)
-            }
-        }
-    }
-    
-    func animateOtpObjects(alpha: CGFloat) {
+    func fadeOtpObjects(alpha: CGFloat) {
         UIView.animate(withDuration: 0.3, animations: {
             self.setOtpObjects(alpha: alpha)
-            self.setPasswordComponents(alpha: 0.0)
+            self.setPasswordComponents(alpha: 0)
         }) { (Void) in
             if alpha == 0 {
-                self.animateOtpView(alpha: alpha)
-            } else {
-                self.animateOtpText(alpha: alpha)
+                self.animateOtpView(alpha: 0)
             }
         }
     }
@@ -637,25 +595,25 @@ class LoginViewController: UIViewController {
     func animateOtpView(alpha: CGFloat) {
         UIView.animate(withDuration: 0.3, animations: {
             if alpha == 0 {
-                self.otpView.frame = self.loginFrame
+                self.otpView.frame = self.loginPasswordFrame
             }
         }, completion: { (Void) in
             if alpha == 0 {
-                self.resetLoginPositions()
+                self.loginView.frame = self.loginPasswordFrame
                 self.setOtpView(alpha: alpha)
                 self.setLoginView(alpha: 1)
-                self.animateLoginObjects(alpha: 1)
+                self.fadeLoginPasswordObjects(alpha: 1)
                 self.otpView.frame = self.otpFrame
             } else {
-                self.animateOtpObjects(alpha: alpha)
+                self.fadeOtpObjects(alpha: alpha)
             }
         })
     }
     
-    func animateForgotObjects(alpha: CGFloat) {
+    func fadeForgotObjects(alpha: CGFloat) {
         UIView.animate(withDuration: 0.3, animations: {
             self.setForgotObjects(alpha: alpha)
-            self.setPasswordComponents(alpha: 0.0)
+            self.setPasswordComponents(alpha: 0)
         }, completion: { (Void) in
             if alpha == 0 {
                 self.animateForgotView(alpha: alpha)
@@ -671,14 +629,25 @@ class LoginViewController: UIViewController {
         }, completion: { (Void) in
             if alpha == 0 {
                 self.animateLoginPassword()
-                self.setForgotView(alpha: alpha)
+                self.setForgotView(alpha: 0)
                 self.setLoginView(alpha: 1)
-                self.animateLoginObjects(alpha: 1)
-//                self.forgotView.frame = self.forgotPasswordFrame
+                self.fadeLoginPasswordObjects(alpha: 1)
             } else {
-                self.animateForgotObjects(alpha: alpha)
+                self.fadeForgotObjects(alpha: 1)
             }
         })
+    }
+    
+    @objc func onPressNext(sender: UIButton!) {
+        
+        if loginTextField.text?.isEmpty == false {
+            //if password
+            currentScreen = "LOGINPASSWORD"
+            animateLoginPassword()
+            //else
+            //animateOtpObjects(alpha: 0.0)
+        }
+        
     }
     
     @objc func onPressVerify(sender: UIButton!) {
@@ -687,11 +656,19 @@ class LoginViewController: UIViewController {
     
     
     @objc func onPressBack(sender: UIButton!) {
-        if toScreen == "OTP" {
-            loginTextField.text = ""
-            animateOtpText(alpha: 0.0)
-        } else if toScreen == "FORGOT" {
-            animateForgotObjects(alpha: 0.0)
+        if currentScreen == "OTP" {
+            currentScreen = "LOGINPASSWORD"
+            fadeOtpObjects(alpha: 0)
+        } else if currentScreen == "FORGOT" {
+            currentScreen = "LOGINPASSWORD"
+            fadeForgotObjects(alpha: 0)
+        } else if currentScreen == "LOGINPASSWORD" {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.backButton.alpha = 0
+                self.setPasswordComponents(alpha: 0)
+            }, completion: { (Void) in
+                self.animateLoginPasswordView(alpha: 1)
+            })
         }
     }
     
@@ -700,8 +677,8 @@ class LoginViewController: UIViewController {
     }
     
     @objc func onPressForgotPassword(sender: UIButton!) {
-        toScreen = "FORGOT"
-        animateLoginText(alpha: 0.0)
+        currentScreen = "FORGOT"
+        fadeLoginPasswordObjects(alpha: 0)
     }
     
     @objc func onPressInfoButton(sender: UIButton!) {
@@ -710,9 +687,9 @@ class LoginViewController: UIViewController {
     
     @objc func onPressUseOtp(sender: UIButton!) {
         if loginTextField.text?.isEmpty == false{
-            toScreen = "OTP"
+            currentScreen = "OTP"
             phoneNumber = loginTextField.text!
-            animateLoginText(alpha: 0.0)
+            fadeLoginPasswordObjects(alpha: 0)
         }
     }
     
