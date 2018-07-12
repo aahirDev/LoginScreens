@@ -10,7 +10,10 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
+    //BASE
     var backgroundView = UIView()
+    
+    //LOGIN ELEMENTS
     var loginView = UIView()
     var titleLabel = UILabel()
     var loginTextField = UITextField()
@@ -19,6 +22,8 @@ class LoginViewController: UIViewController {
     var otpView = UIView()
     var otpTopLabel = UILabel()
     var backButton = UIButton()
+    
+    //OTP ELEMENTS
     var otpImage = UIImageView()
     var verificationLabel = UILabel()
     var otpTextField = UITextField()
@@ -35,15 +40,21 @@ class LoginViewController: UIViewController {
     var orLineView1 = UIView()
     var orLineView2 = UIView()
     var useOtpButton = UIButton()
+    
+    //SOCIAL ELEMENTS
     var fbButton = UIButton()
     var googleButton = UIButton()
     var trueButton = UIButton()
     var socialTitle = UILabel()
+    
+    //INFO ELEMENTS
     var infoQuestion = UILabel()
     var infoLabel = UILabel()
     var infoButton = UIButton()
     var leftLineView = UIView()
     var rightLineView = UIView()
+    
+    //FORGOT ELEMENTS
     var forgotView = UIView()
     var forgotTextField = UITextField()
     var forgotLineView = UIView()
@@ -51,15 +62,30 @@ class LoginViewController: UIViewController {
     var forgotTitleLabel = UILabel()
     var forgotDescLabel = UILabel()
     
+    //SIGNUP ELEMENTS
+    var signupView = UIView()
+    var signupTitleLabel = UILabel()
+    var nameTextField = UITextField()
+    var namelineView = UIView()
+    var mobileTextField = UITextField()
+    var mobileLineView = UIView()
+    var emailTextField = UITextField()
+    var emailLineView = UIView()
+    var getStartedButton = UIButton()
+    
+    //FRAMES
     var loginFrame = CGRect()
     var loginPasswordFrame = CGRect()
     var otpFrame = CGRect()
     var forgotPasswordFrame = CGRect()
+    var signupFrame = CGRect()
     
     var blue1 = UIColor(hexString: "3f96ce")
     var blue2 = UIColor(hexString: "346aa0")
     var phoneNumber = ""
     var currentScreen = "LOGIN"
+    var headingFont = UIFont(name: "Roboto-Light", size: 19.0)
+    var textFieldFont = UIFont(name: "Roboto-Light", size: 15.0)
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +93,7 @@ class LoginViewController: UIViewController {
         initLoginView()
         initInfoView()
         initSocialView()
+        initSignupView()
         initForgotPasswordView()
         initOtpView()
         initBackButton()
@@ -74,10 +101,11 @@ class LoginViewController: UIViewController {
     }
 
     func initialise() {
-        loginFrame = CGRect(x: 25, y: 220, width: self.view.bounds.width - 50, height: self.view.bounds.height*0.3)
+        loginFrame = CGRect(x: 25, y: 200, width: self.view.bounds.width - 50, height: self.view.bounds.height*0.3)
         loginPasswordFrame = CGRect(x: 25, y: 100, width: self.view.bounds.width - 50, height: self.view.bounds.height*0.60)
         otpFrame = CGRect(x: 25, y: 100, width: self.view.bounds.width - 50, height: self.view.bounds.height*0.7)
         forgotPasswordFrame = CGRect(x: 25, y: 100, width: self.view.bounds.width - 50, height: self.view.bounds.height*0.4)
+        signupFrame = CGRect(x: 25, y: 200, width: self.view.bounds.width - 50, height: self.view.bounds.height*0.46)
         self.hideKeyboardWhenTappedAround()
     }
     
@@ -97,7 +125,7 @@ class LoginViewController: UIViewController {
         titleLabel.textAlignment = .center
         titleLabel.text = "Login"
         titleLabel.textColor = UIColor(hexString: "333333")
-        titleLabel.font = UIFont(name: "Roboto-Light", size: 18.0)
+        titleLabel.font = headingFont
         self.view.addSubview(titleLabel)
         
         loginTextField = UITextField(frame: CGRect(x: 50, y: titleLabel.frame.origin.y + 60, width: loginView.frame.width - 50, height: 25))
@@ -105,7 +133,7 @@ class LoginViewController: UIViewController {
         loginTextField.tintColor = UIColor(hexString: "3f96ce")
         loginTextField.placeholder = "Enter Email ID / Mobile Number"
         loginTextField.textColor = UIColor(hexString: "333333")
-        loginTextField.font = UIFont(name: "Roboto-Light", size: 12.0)
+        loginTextField.font = textFieldFont
         self.view.addSubview(loginTextField)
         
         lineView = UIView(frame: CGRect(x: loginTextField.frame.origin.x, y: loginTextField.frame.origin.y + 30, width: loginView.frame.width - 50, height: 1))
@@ -129,7 +157,7 @@ class LoginViewController: UIViewController {
         passwordTextField.tintColor = UIColor(hexString: "3f96ce")
         passwordTextField.placeholder = "Password"
         passwordTextField.textColor = UIColor(hexString: "333333")
-        passwordTextField.font = UIFont(name: "Roboto-Light", size: 12.0)
+        passwordTextField.font = textFieldFont
         passwordTextField.isSecureTextEntry = true
         self.view.addSubview(passwordTextField)
 
@@ -219,7 +247,7 @@ class LoginViewController: UIViewController {
         infoQuestion.center.x = self.view.center.x
         infoQuestion.textAlignment = .center
         infoQuestion.textColor = UIColor.white
-        infoQuestion.font = UIFont(name: "Roboto-Medium", size: 14.0)
+        infoQuestion.font = UIFont(name: "Roboto-Regular", size: 15.0)
         self.view.addSubview(infoQuestion)
         
         infoLabel = UILabel(frame: CGRect(x: 20, y: infoQuestion.frame.origin.y + 40, width: self.view.frame.width - 40, height: 60))
@@ -243,7 +271,7 @@ class LoginViewController: UIViewController {
         infoButton.center.x = self.view.center.x
         infoButton.layer.cornerRadius = infoButton.frame.height/2
         infoButton.setTitleColor(blue2, for: .normal)
-        infoButton.titleLabel?.font = UIFont(name: "Roboto-Medium", size: 13.0)
+        infoButton.titleLabel?.font = UIFont(name: "Roboto-Regular", size: 15.0)
         infoButton.addTarget(self, action: #selector(onPressInfoButton(sender:)), for: .touchUpInside)
         self.view.addSubview(infoButton)
         signupViewUI()
@@ -264,7 +292,7 @@ class LoginViewController: UIViewController {
         otpTopLabel.textAlignment = .center
         otpTopLabel.text = "Verification Code"
         otpTopLabel.textColor = UIColor(hexString: "333333")
-        otpTopLabel.font = UIFont(name: "Roboto-Light", size: 18.0)
+        otpTopLabel.font = headingFont
         self.view.addSubview(otpTopLabel)
         
         otpImage = UIImageView(frame: CGRect(x: 0, y: otpTopLabel.frame.origin.y + 40, width: 160, height: 100))
@@ -337,7 +365,6 @@ class LoginViewController: UIViewController {
         
         setOtpView(alpha: 0.0)
         setOtpObjects(alpha: 0.0)
-       // setOtpText(alpha: 0.0)
     }
     
     func initForgotPasswordView() {
@@ -353,8 +380,7 @@ class LoginViewController: UIViewController {
         forgotTitleLabel.textAlignment = .center
         forgotTitleLabel.text = "Forgot Password?"
         forgotTitleLabel.textColor = UIColor(hexString: "333333")
-        forgotTitleLabel.font = UIFont(name: "Roboto-Light", size: 18.0)
-        //forgotTitleLabel.sizeToFit()
+        forgotTitleLabel.font = headingFont
         self.view.addSubview(forgotTitleLabel)
         
         forgotDescLabel = UILabel(frame: CGRect(x: forgotView.frame.origin.x + 30, y: forgotTitleLabel.frame.origin.y + 40, width: forgotView.frame.size.width - 80, height: 25))
@@ -372,7 +398,7 @@ class LoginViewController: UIViewController {
         forgotTextField.tintColor = UIColor(hexString: "3f96ce")
         forgotTextField.placeholder = "Enter Email ID / Mobile Number"
         forgotTextField.textColor = UIColor(hexString: "333333")
-        forgotTextField.font = UIFont(name: "Roboto-Light", size: 12.0)
+        forgotTextField.font = textFieldFont
         self.view.addSubview(forgotTextField)
         
         forgotLineView = UIView(frame: CGRect(x: forgotTextField.frame.origin.x, y: forgotTextField.frame.origin.y + 30, width: forgotView.frame.width - 50, height: 1))
@@ -394,6 +420,76 @@ class LoginViewController: UIViewController {
         self.setForgotObjects(alpha: 0.0)
     }
     
+    func initSignupView() {
+        
+        signupView = UIView(frame: signupFrame)
+        signupView.backgroundColor = UIColor.white
+        signupView.layer.cornerRadius = 5.0
+        signupView.clipsToBounds = true
+        self.view.addSubview(signupView)
+        
+        signupTitleLabel = UILabel(frame: CGRect(x: 0, y: signupView.frame.origin.y + 20, width: 200, height: 25))
+        signupTitleLabel.center.x = signupView.center.x
+        signupTitleLabel.textAlignment = .center
+        signupTitleLabel.text = "Sign-Up"
+        signupTitleLabel.textColor = UIColor(hexString: "333333")
+        signupTitleLabel.font = headingFont
+        self.view.addSubview(signupTitleLabel)
+        
+        nameTextField = UITextField(frame: CGRect(x: 50, y: signupTitleLabel.frame.origin.y + 60, width: signupView.frame.width - 50, height: 25))
+        nameTextField.textAlignment = .left
+        nameTextField.tintColor = UIColor(hexString: "3f96ce")
+        nameTextField.placeholder = "Your Full Name"
+        nameTextField.textColor = UIColor(hexString: "333333")
+        nameTextField.font = textFieldFont
+        self.view.addSubview(nameTextField)
+        
+        namelineView = UIView(frame: CGRect(x: nameTextField.frame.origin.x, y: nameTextField.frame.origin.y + 30, width: signupView.frame.width - 50, height: 1))
+        namelineView.backgroundColor = UIColor(hexString: "e9e9e9")
+        self.view.addSubview(namelineView)
+        
+        mobileTextField = UITextField(frame: CGRect(x: 50, y: namelineView.frame.origin.y + 30, width: signupView.frame.width - 50, height: 25))
+        mobileTextField.textAlignment = .left
+        mobileTextField.tintColor = UIColor(hexString: "3f96ce")
+        mobileTextField.placeholder = "Mobile Number"
+        mobileTextField.textColor = UIColor(hexString: "333333")
+        mobileTextField.font = textFieldFont
+        mobileTextField.isSecureTextEntry = true
+        self.view.addSubview(mobileTextField)
+        
+        mobileLineView = UIView(frame: CGRect(x: mobileTextField.frame.origin.x, y: mobileTextField.frame.origin.y + 30, width: signupView.frame.width - 50, height: 1))
+        mobileLineView.backgroundColor = UIColor(hexString: "e9e9e9")
+        self.view.addSubview(mobileLineView)
+        
+        emailTextField = UITextField(frame: CGRect(x: 50, y: mobileLineView.frame.origin.y + 30, width: signupView.frame.width - 50, height: 25))
+        emailTextField.textAlignment = .left
+        emailTextField.tintColor = UIColor(hexString: "3f96ce")
+        emailTextField.placeholder = "Email"
+        emailTextField.textColor = UIColor(hexString: "333333")
+        emailTextField.font = textFieldFont
+        emailTextField.isSecureTextEntry = true
+        self.view.addSubview(emailTextField)
+        
+        emailLineView = UIView(frame: CGRect(x: emailTextField.frame.origin.x, y: emailTextField.frame.origin.y + 30, width: signupView.frame.width - 50, height: 1))
+        emailLineView.backgroundColor = UIColor(hexString: "e9e9e9")
+        self.view.addSubview(emailLineView)
+        
+        getStartedButton = UIButton(frame: CGRect(x: 0, y: emailLineView.frame.origin.y + 30, width: 140, height: 40))
+        getStartedButton.center.x = signupView.center.x
+        getStartedButton.applyGradient(colours: [blue1!, blue2!])
+        getStartedButton.backgroundColor = UIColor.white
+        getStartedButton.layer.cornerRadius = getStartedButton.frame.height/2
+        getStartedButton.clipsToBounds = true
+        getStartedButton.setTitleColor(UIColor.white, for: .normal)
+        getStartedButton.setTitle("GET STARTED", for: .normal)
+        getStartedButton.titleLabel?.font = UIFont(name: "Roboto-Medium", size: 14.0)
+        getStartedButton.addTarget(self, action: #selector(onPressGetStarted(sender:)), for: .touchUpInside)
+        self.view.addSubview(getStartedButton)
+        
+        self.setSignupView(alpha: 0.0)
+        self.setSignupObjects(alpha: 0.0)
+    }
+    
     func initBackButton() {
         backButton = UIButton(frame: CGRect(x: 40, y: titleLabel.frame.origin.y, width: 20, height: 20))
         backButton.addTarget(self, action: #selector(onPressBack(sender:)), for: .touchUpInside)
@@ -402,13 +498,21 @@ class LoginViewController: UIViewController {
         backButton.alpha = 0
     }
     
+    func setInfoViewSignup() {
+        infoQuestion.frame.origin.y = signupView.frame.origin.y + signupView.frame.size.height + 30
+        infoLabel.frame.origin.y = infoQuestion.frame.origin.y + 40
+        leftLineView.frame.origin.y = infoQuestion.frame.origin.y+10
+        rightLineView.frame.origin.y = infoQuestion.frame.origin.y+10
+        infoButton.frame.origin.y = infoLabel.frame.origin.y + 80
+    }
     
     func signupViewUI() {
         infoQuestion.text = "New User?"
         infoQuestion.sizeToFit()
+        infoQuestion.center.x = self.view.center.x
         infoButton.setTitle("SIGN-UP", for: .normal)
         infoLabel.text = "Sign-up to enjoy 40% faster checkouts and efficient subscription management."
-        infoQuestion.center.x = self.view.center.x
+        infoLabel.alpha = 1
         leftLineView.frame.origin.x = infoQuestion.frame.origin.x - 50
         rightLineView.frame.origin.x = infoQuestion.frame.origin.x + infoQuestion.frame.width + 10
     }
@@ -427,9 +531,10 @@ class LoginViewController: UIViewController {
     func alreadyRegisteredViewUI(){
         infoQuestion.text = "Already Registered?"
         infoQuestion.sizeToFit()
-        infoButton.setTitle("LOGIN", for: .normal)
-        infoButton.alpha = 0
         infoQuestion.center.x = self.view.center.x
+        infoButton.setTitle("LOGIN", for: .normal)
+        infoButton.frame.origin.y = infoQuestion.frame.origin.y + 40
+        infoLabel.alpha = 0
         leftLineView.frame.origin.x = infoQuestion.frame.origin.x - 50
         rightLineView.frame.origin.x = infoQuestion.frame.origin.x + infoQuestion.frame.width + 10
     }
@@ -455,6 +560,11 @@ class LoginViewController: UIViewController {
     func setForgotView(alpha: CGFloat) {
         self.backButton.frame.origin.y = forgotTitleLabel.frame.origin.y
         forgotView.alpha = alpha
+    }
+    
+    func setSignupView(alpha: CGFloat) {
+        self.backButton.frame.origin.y = signupTitleLabel.frame.origin.y
+        signupView.alpha = alpha
     }
     
     func setLoginObjects(alpha: CGFloat) {
@@ -511,6 +621,17 @@ class LoginViewController: UIViewController {
         resetButton.alpha = alpha
     }
     
+    func setSignupObjects(alpha: CGFloat) {
+        signupTitleLabel.alpha = alpha
+        nameTextField.alpha = alpha
+        namelineView.alpha = alpha
+        mobileTextField.alpha = alpha
+        mobileLineView.alpha = alpha
+        emailTextField.alpha = alpha
+        emailLineView.alpha = alpha
+        getStartedButton.alpha = alpha
+    }
+    
     func animateLoginPassword() {
         UIView.animate(withDuration: 0.3, animations: {
             self.loginView.frame = self.loginPasswordFrame
@@ -557,11 +678,18 @@ class LoginViewController: UIViewController {
                     self.loginView.frame = self.otpFrame
                 } else if self.currentScreen == "FORGOT" {
                     self.loginView.frame = self.forgotPasswordFrame
+                } else if self.currentScreen == "SIGNUP" {
+                    self.loginView.frame = self.signupFrame
+                    self.signupView.frame = self.signupFrame
+                    self.setInfoViewSignup()
+                    self.alreadyRegisteredViewUI()
                 }
             } else {
                 if self.currentScreen == "LOGINPASSWORD" {
                     self.loginView.frame = self.loginFrame
                     self.resetLoginPositions()
+                    self.setSocialObjects(alpha: 1)
+                    self.setBottomObjects(alpha: 1)
                 }
             }
         }, completion: { (Void) in
@@ -576,6 +704,10 @@ class LoginViewController: UIViewController {
                     self.forgotView.frame = self.forgotPasswordFrame
                     self.setForgotView(alpha: 1)
                     self.fadeForgotObjects(alpha: 1)
+                } else if self.currentScreen == "SIGNUP" {
+                    self.loginView.frame = self.loginFrame
+                    self.setSignupView(alpha: 1)
+                    self.fadeSignupObjects(alpha: 1)
                 }
             }
         })
@@ -638,6 +770,35 @@ class LoginViewController: UIViewController {
         })
     }
     
+    func fadeSignupObjects(alpha: CGFloat) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.backButton.alpha = alpha
+            self.setSignupObjects(alpha: alpha)
+        }, completion: { (Void) in
+            if alpha == 0 {
+                self.animateSignupView(alpha: alpha)
+            }
+        })
+    }
+    
+    func animateSignupView(alpha: CGFloat) {
+        UIView.animate(withDuration: 0.3, animations: {
+            if alpha == 0 {
+                self.signupView.frame = self.loginFrame
+                self.setInfoViewSignup()
+                self.signupViewUI()
+            }
+        }, completion: { (Void) in
+            if alpha == 0 {
+                self.setSignupView(alpha: 0)
+                self.setLoginView(alpha: 1)
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.setLoginObjects(alpha: 1)
+                })
+            }
+        })
+    }
+    
     @objc func onPressNext(sender: UIButton!) {
         
         if loginTextField.text?.isEmpty == false {
@@ -657,11 +818,11 @@ class LoginViewController: UIViewController {
     
     @objc func onPressBack(sender: UIButton!) {
         if currentScreen == "OTP" {
-            currentScreen = "LOGINPASSWORD"
             fadeOtpObjects(alpha: 0)
-        } else if currentScreen == "FORGOT" {
             currentScreen = "LOGINPASSWORD"
+        } else if currentScreen == "FORGOT" {
             fadeForgotObjects(alpha: 0)
+            currentScreen = "LOGINPASSWORD"
         } else if currentScreen == "LOGINPASSWORD" {
             UIView.animate(withDuration: 0.3, animations: {
                 self.backButton.alpha = 0
@@ -669,6 +830,9 @@ class LoginViewController: UIViewController {
             }, completion: { (Void) in
                 self.animateLoginPasswordView(alpha: 1)
             })
+        } else if currentScreen == "SIGNUP" {
+            self.fadeSignupObjects(alpha: 0)
+            currentScreen = "LOGIN"
         }
     }
     
@@ -682,7 +846,8 @@ class LoginViewController: UIViewController {
     }
     
     @objc func onPressInfoButton(sender: UIButton!) {
-        
+        currentScreen = "SIGNUP"
+        fadeLoginPasswordObjects(alpha: 0)
     }
     
     @objc func onPressUseOtp(sender: UIButton!) {
@@ -691,6 +856,9 @@ class LoginViewController: UIViewController {
             phoneNumber = loginTextField.text!
             fadeLoginPasswordObjects(alpha: 0)
         }
+    }
+    @objc func onPressGetStarted(sender: UIButton!) {
+        
     }
     
     @objc func onPressReset(sender: UIButton!) {
